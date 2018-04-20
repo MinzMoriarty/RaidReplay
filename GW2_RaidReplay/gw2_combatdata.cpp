@@ -3,19 +3,14 @@
 GW2_CombatData::GW2_CombatData(QObject *parent)
 	: QObject(parent)
 {
-	agent_list = new QList<GW2_Agent*>;
-	skill_list = new QList<GW2_Skill*>;
-	combatevent_list = new QList<GW2_CombatEvent*>;	
+	
 }
 
 GW2_CombatData::~GW2_CombatData()
 {
 	clear_agents();
 	clear_skills();
-	clear_combatevents();		
-	delete agent_list;
-	delete skill_list;
-	delete combatevent_list;
+	clear_combatevents();	
 }
 
 //
@@ -24,7 +19,7 @@ GW2_CombatData::~GW2_CombatData()
 
 void GW2_CombatData::add_agent(GW2_Agent* agent_data)
 {	
-	agent_list->append(agent_data);
+	agent_list.append(agent_data);
 	map_add_agent(agent_data);
 
 	//Debugging
@@ -39,7 +34,7 @@ void GW2_CombatData::add_agent(GW2_Agent* agent_data)
 
 void GW2_CombatData::add_skill(GW2_Skill* skill_data)
 {
-	skill_list->append(skill_data);
+	skill_list.append(skill_data);
 
 	//Debugging
 	/*
@@ -53,7 +48,7 @@ void GW2_CombatData::add_skill(GW2_Skill* skill_data)
 
 void GW2_CombatData::add_combatevent(GW2_CombatEvent* combatevent_data)
 {
-	combatevent_list->append(combatevent_data);
+	combatevent_list.append(combatevent_data);
 
 	//Debugging
 	/*
@@ -67,20 +62,20 @@ void GW2_CombatData::add_combatevent(GW2_CombatEvent* combatevent_data)
 
 void GW2_CombatData::clear_agents()
 {
-	qDeleteAll(agent_list->begin(), agent_list->end());
-	agent_list->clear();
+	qDeleteAll(agent_list.begin(), agent_list.end());
+	agent_list.clear();
 }
 
 void GW2_CombatData::clear_skills()
 {
-	qDeleteAll(skill_list->begin(), skill_list->end());
-	skill_list->clear();
+	qDeleteAll(skill_list.begin(), skill_list.end());
+	skill_list.clear();
 }
 
 void GW2_CombatData::clear_combatevents()
 {
-	qDeleteAll(combatevent_list->begin(), combatevent_list->end());
-	combatevent_list->clear();
+	qDeleteAll(combatevent_list.begin(), combatevent_list.end());
+	combatevent_list.clear();
 }
 
 uint16_t  GW2_CombatData::get_upper_bytes(uint32_t number)
@@ -99,10 +94,10 @@ uint16_t  GW2_CombatData::get_lower_bytes(uint32_t number)
 
 void GW2_CombatData::split_gadgets()
 {	
-	for (int counter = 0; counter < agent_list->size(); counter++)
+	for (int counter = 0; counter < agent_list.size(); counter++)
 	{
 		//Check if entry is Gadget
-		if ((agent_list->at(counter)->get_is_elite() == 0xffffffff) && get_upper_bytes(agent_list->at(counter)->get_prof()) == 0xffff)
+		if ((agent_list.at(counter)->get_is_elite() == 0xffffffff) && get_upper_bytes(agent_list.at(counter)->get_prof()) == 0xffff)
 		{
 			//Agent is Gadget with volatile ID, Remove from Agents and add to Gadgets, assign ID
 			//TODO add code to handle transfer and correct pointer position
@@ -117,10 +112,10 @@ void GW2_CombatData::split_gadgets()
 
 void GW2_CombatData::split_characters()
 {
-	for (int counter = 0; counter < agent_list->size(); counter++)
+	for (int counter = 0; counter < agent_list.size(); counter++)
 	{
 		//Check if entry is Character
-		if ((agent_list->at(counter)->get_is_elite() == 0xffffffff) && get_upper_bytes(agent_list->at(counter)->get_prof()) != 0xffff)
+		if ((agent_list.at(counter)->get_is_elite() == 0xffffffff) && get_upper_bytes(agent_list.at(counter)->get_prof()) != 0xffff)
 		{
 			//Agent is Character with species ID, Remove from Agents and add to Characters, assign ID
 			//TODO add code to handle transfer and correct pointer position
@@ -136,16 +131,16 @@ void GW2_CombatData::split_characters()
 
 void GW2_CombatData::split_players()
 {
-	for (int counter = 0; counter < agent_list->size(); counter++)
+	for (int counter = 0; counter < agent_list.size(); counter++)
 	{
 		//Check if entry is Player
-		if ((agent_list->at(counter)->get_is_elite() != 0xffffffff))
+		if ((agent_list.at(counter)->get_is_elite() != 0xffffffff))
 		{
 			//Agent is Player with profession and elite spec, Remove from Agents and add to Players
 			//TODO add code to handle transfer and correct pointer position
 			printf("Found a Player at Pos: %d\n", counter);
-			printf("Player pofession: %d\n", agent_list->at(counter)->get_prof());
-			printf("Player elitespec: %d\n", agent_list->at(counter)->get_is_elite());
+			printf("Player pofession: %d\n", agent_list.at(counter)->get_prof());
+			printf("Player elitespec: %d\n", agent_list.at(counter)->get_is_elite());
 		}
 		else
 		{
@@ -157,23 +152,23 @@ void GW2_CombatData::split_players()
 
 void GW2_CombatData::assign_instance_id()
 {	
-	for (int event_counter = 0; event_counter < combatevent_list->size(); event_counter++){
-		for (int agent_counter = 0; agent_counter < agent_list->size(); agent_counter++)
+	for (int event_counter = 0; event_counter < combatevent_list.size(); event_counter++){
+		for (int agent_counter = 0; agent_counter < agent_list.size(); agent_counter++)
 		{
 			//If event belongs to agent assing id and times
-			if ((agent_list->at(agent_counter)->get_addr() == combatevent_list->at(event_counter)->src_agent) && !combatevent_list->at(event_counter)->is_statechange)
+			if ((agent_list.at(agent_counter)->get_addr() == combatevent_list.at(event_counter)->src_agent) && !combatevent_list.at(event_counter)->is_statechange)
 			{				
-				agent_list->at(agent_counter)->set_instance_id(combatevent_list->at(event_counter)->src_instid);				
-				if (agent_list->at(agent_counter)->get_first_aware() == 0)
+				agent_list.at(agent_counter)->set_instance_id(combatevent_list.at(event_counter)->src_instid);				
+				if (agent_list.at(agent_counter)->get_first_aware() == 0)
 				{
 					//Assign time to first_aware if first occurence
-					agent_list->at(agent_counter)->set_first_aware(combatevent_list->at(event_counter)->time);
+					agent_list.at(agent_counter)->set_first_aware(combatevent_list.at(event_counter)->time);
 					//printf("Assigned first_aware to agent ID %d\n", agent_counter);
 				}
 				else
 				{
 					//Assign time to last_aware if not first occurence
-					agent_list->at(agent_counter)->set_last_aware(combatevent_list->at(event_counter)->time);
+					agent_list.at(agent_counter)->set_last_aware(combatevent_list.at(event_counter)->time);
 					//printf("Assigned last_aware to agent ID %d\n", agent_counter);
 				}
 			}
@@ -185,25 +180,25 @@ void GW2_CombatData::assign_instance_id()
 void GW2_CombatData::assign_master_agent()
 {
 	//For each combatevent
-	for (int event_counter = 0; event_counter < combatevent_list->size(); event_counter++){
+	for (int event_counter = 0; event_counter < combatevent_list.size(); event_counter++){
 		//If the event has a master_id, the source is a minion/pet
-		if (combatevent_list->at(event_counter)->src_master_instid != 0)
+		if (combatevent_list.at(event_counter)->src_master_instid != 0)
 		{
 			//Iterate through all agents
-			for (int master_counter = 0; master_counter < agent_list->size(); master_counter++)
+			for (int master_counter = 0; master_counter < agent_list.size(); master_counter++)
 			{
 				//Find the master agent for the combat event where instance id matches and master existed while event occurs 
-				if (agent_list->at(master_counter)->get_instance_id() == combatevent_list->at(event_counter)->src_master_instid && (agent_list->at(master_counter)->get_first_aware() < combatevent_list->at(event_counter)->time < agent_list->at(master_counter)->get_last_aware()))
+				if (agent_list.at(master_counter)->get_instance_id() == combatevent_list.at(event_counter)->src_master_instid && (agent_list.at(master_counter)->get_first_aware() < combatevent_list.at(event_counter)->time < agent_list.at(master_counter)->get_last_aware()))
 				{
-					printf("Master ID is %X\n", agent_list->at(master_counter)->get_addr());
+					printf("Master ID is %X\n", agent_list.at(master_counter)->get_addr());
 					//Find minion/pet agent executing the event by comparing agent addr to cbtevent src_agent  
-					for (int minion_counter = 0; minion_counter < agent_list->size(); minion_counter++)
+					for (int minion_counter = 0; minion_counter < agent_list.size(); minion_counter++)
 					{
 						//If minion/pet agent was found assign master_addr to minion
-						if (agent_list->at(minion_counter)->get_addr() == combatevent_list->at(event_counter)->src_agent)
+						if (agent_list.at(minion_counter)->get_addr() == combatevent_list.at(event_counter)->src_agent)
 						{
-							printf("Minion ID is %X\n", agent_list->at(minion_counter)->get_addr());
-							agent_list->at(minion_counter)->set_master_addr(agent_list->at(master_counter)->get_addr());
+							printf("Minion ID is %X\n", agent_list.at(minion_counter)->get_addr());
+							agent_list.at(minion_counter)->set_master_addr(agent_list.at(master_counter)->get_addr());
 						}						
 					}					
 				}				
@@ -266,26 +261,26 @@ void GW2_CombatData::clear_agent_map()
 
 void GW2_CombatData::map_assign_instance_id()
 {	
-	for (int event_counter = 0; event_counter < combatevent_list->size(); event_counter++){
+	for (int event_counter = 0; event_counter < combatevent_list.size(); event_counter++){
 		//Generate small list of relevant agents
-		QList<GW2_Agent*> working_agents = agent_map.values(combatevent_list->at(event_counter)->src_agent);
+		QList<GW2_Agent*> working_agents = agent_map.values(combatevent_list.at(event_counter)->src_agent);
 		
 		for (int agent_counter = 0; agent_counter < working_agents.size(); agent_counter++)
 		{
 			//If event belongs to agent assing id and times
-			if ((working_agents.at(agent_counter)->get_addr() == combatevent_list->at(event_counter)->src_agent) && !combatevent_list->at(event_counter)->is_statechange)
+			if ((working_agents.at(agent_counter)->get_addr() == combatevent_list.at(event_counter)->src_agent) && !combatevent_list.at(event_counter)->is_statechange)
 			{
-				working_agents.at(agent_counter)->set_instance_id(combatevent_list->at(event_counter)->src_instid);
+				working_agents.at(agent_counter)->set_instance_id(combatevent_list.at(event_counter)->src_instid);
 				if (working_agents.at(agent_counter)->get_first_aware() == 0)
 				{
 					//Assign time to first_aware if first occurence
-					working_agents.at(agent_counter)->set_first_aware(combatevent_list->at(event_counter)->time);
+					working_agents.at(agent_counter)->set_first_aware(combatevent_list.at(event_counter)->time);
 					//printf("Assigned first_aware to agent ID %d = %d\n", working_agents.at(agent_counter)->get_addr(), combatevent_list->at(event_counter)->src_agent);
 				}
 				else
 				{
 					//Assign time to last_aware if not first occurence
-					working_agents.at(agent_counter)->set_last_aware(combatevent_list->at(event_counter)->time);
+					working_agents.at(agent_counter)->set_last_aware(combatevent_list.at(event_counter)->time);
 					//printf("Assigned last_aware to agent ID %d\n", agent_counter);
 				}
 			}
@@ -297,9 +292,9 @@ void GW2_CombatData::map_assign_instance_id()
 void GW2_CombatData::map_assign_master_agent()
 {
 	//For each combatevent
-	for (int event_counter = 0; event_counter < combatevent_list->size(); event_counter++){
+	for (int event_counter = 0; event_counter < combatevent_list.size(); event_counter++){
 		//If the event has a master_id, the source is a minion/pet
-		if (combatevent_list->at(event_counter)->src_master_instid != 0)
+		if (combatevent_list.at(event_counter)->src_master_instid != 0)
 		{			
 			//Generate list of all agents
 			QList<GW2_Agent*> working_agents = agent_map.values();			
@@ -308,18 +303,18 @@ void GW2_CombatData::map_assign_master_agent()
 			for (int master_counter = 0; master_counter < working_agents.size(); master_counter++)
 			{
 				//Find the master agent for the combat event where instance id matches and master existed while event occurs 
-				if (working_agents.at(master_counter)->get_instance_id() == combatevent_list->at(event_counter)->src_master_instid && (working_agents.at(master_counter)->get_first_aware() < combatevent_list->at(event_counter)->time < working_agents.at(master_counter)->get_last_aware()))
+				if (working_agents.at(master_counter)->get_instance_id() == combatevent_list.at(event_counter)->src_master_instid && (working_agents.at(master_counter)->get_first_aware() < combatevent_list.at(event_counter)->time < working_agents.at(master_counter)->get_last_aware()))
 				{
 					printf("Master ID is %X\n", working_agents.at(master_counter)->get_addr());
 					
 					//Generate small list of relevant minion agents
-					QList<GW2_Agent*> working_minions = agent_map.values(combatevent_list->at(event_counter)->src_agent);
+					QList<GW2_Agent*> working_minions = agent_map.values(combatevent_list.at(event_counter)->src_agent);
 
 					//Find minion/pet agent executing the event by comparing agent addr to cbtevent src_agent  
 					for (int minion_counter = 0; minion_counter < working_minions.size(); minion_counter++)
 					{
 						//If minion/pet agent was found assign master_addr to minion
-						if (working_minions.at(minion_counter)->get_addr() == combatevent_list->at(event_counter)->src_agent)
+						if (working_minions.at(minion_counter)->get_addr() == combatevent_list.at(event_counter)->src_agent)
 						{
 							printf("Minion ID is %X\n", working_minions.at(minion_counter)->get_addr());
 							working_minions.at(minion_counter)->set_master_addr(working_agents.at(master_counter)->get_addr());

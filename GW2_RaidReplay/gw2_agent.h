@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <QObject>
+#include <QMap>
 
 class GW2_Agent : public QObject
 {

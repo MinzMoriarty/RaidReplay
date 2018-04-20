@@ -10,7 +10,6 @@
 #include "gw2_character.h"
 #include <string>
 #include <QMap>
-
 #include <iostream>
 
 class GW2_CombatData : public QObject
@@ -69,12 +68,13 @@ private:
 	std::string log_end = "yyyy-MM-dd HH:mm:ss z";
 	uint16_t boss_id;
 	
-	QList<GW2_Agent*>* agent_list;
-	QList<GW2_Skill*>* skill_list;
-	QList<GW2_CombatEvent*>* combatevent_list;
+	QList<GW2_Agent*> agent_list;
+	QList<GW2_Skill*> skill_list;
+	QList<GW2_CombatEvent*> combatevent_list;
 	
 	//TODO: Rewrite to use QMap instead of lists for faster and easier access to agents via addr and src_agent/dst_agent
 	QMap<uint64_t, GW2_Agent*> agent_map;
+	QMap<uint64_t, GW2_Player*> player_map;
 
 	//QList<GW2_Gadget> gadget_list;
 	//QList<GW2_Character> character_list;
