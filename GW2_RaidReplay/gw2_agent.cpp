@@ -1,4 +1,5 @@
 #include "gw2_agent.h"
+#include <iostream>
 
 GW2_Agent::GW2_Agent(QObject *parent)
 	: QObject(parent)
@@ -12,9 +13,14 @@ GW2_Agent::GW2_Agent(QObject *parent)
 	pad1 = 0;
 	condition = 0;
 	pad2 = 0;	
+	name[0] = NULL;
+	instance_id = 0;
+	first_aware = 0;
+	last_aware = UINT64_MAX;
+	master_addr = 0;
 }
 
-GW2_Agent::GW2_Agent(QObject *parent, uint64_t c_addr, uint32_t c_prof, uint32_t c_is_elite, int16_t c_toughness, int16_t c_concentration, int16_t c_healing, int16_t c_pad1, int16_t c_condition, int16_t c_pad2, char* c_name)
+GW2_Agent::GW2_Agent(QObject *parent, uint64_t c_addr, uint32_t c_prof, uint32_t c_is_elite, int16_t c_toughness, int16_t c_concentration, int16_t c_healing, int16_t c_pad1, int16_t c_condition, int16_t c_pad2, char c_name[64])
 	: QObject(parent)
 {
 	addr = c_addr;
@@ -25,12 +31,12 @@ GW2_Agent::GW2_Agent(QObject *parent, uint64_t c_addr, uint32_t c_prof, uint32_t
 	healing = c_healing;
 	pad1 = c_pad1;
 	condition = c_condition;
-	pad2 = c_pad2;
-	strncpy(name, c_name, 64);
+	pad2 = c_pad2;	
+	memcpy(name, c_name, 64*sizeof(char));
 	instance_id = 0;
 	first_aware = 0;
 	last_aware = UINT64_MAX;
-	master_addr = 0;
+	master_addr = 0;	
 }
 
 // GETTER

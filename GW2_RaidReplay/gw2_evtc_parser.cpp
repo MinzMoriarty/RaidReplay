@@ -103,13 +103,13 @@ void GW2_Evtc_Parser::parse_evtc_agents()
 	{
 		result = fread(&agent_buffer, sizeof(evtc_agent), 1, pFile);
 		dataset_addr->add_agent(new GW2_Agent(dataset_addr, agent_buffer.addr, agent_buffer.prof, agent_buffer.is_elite, agent_buffer.toughness, agent_buffer.concentration, agent_buffer.healing, agent_buffer.pad1, agent_buffer.condition, agent_buffer.pad2, agent_buffer.name));
-
-		// DEBUG output - Warning: enabling slows down program considerably	
+				
 		/*
+		// DEBUG output - Warning: enabling slows down program considerably	
 		cout << endl;
 		cout << "NAME: ";
 		cout.write(agent_buffer.name, 64);
-		cout << endl;
+		cout << endl;		
 		cout << "ADDR: " << hex << agent_buffer.addr << dec << endl;
 		cout << "PROF: " << agent_buffer.prof << endl;
 		cout << "ELITE: " << agent_buffer.is_elite << endl;
@@ -118,7 +118,7 @@ void GW2_Evtc_Parser::parse_evtc_agents()
 		cout << "Healing: " << agent_buffer.healing << endl;
 		cout << "Condition Damage: " << agent_buffer.condition << endl;
 		cout << "Pad1: " << agent_buffer.pad1 << endl;
-		cout << "Pad2: " << agent_buffer.pad2 << endl;
+		cout << "Pad2: " << agent_buffer.pad2 << endl;		
 		*/
 
 		fIndex += sizeof(evtc_agent);

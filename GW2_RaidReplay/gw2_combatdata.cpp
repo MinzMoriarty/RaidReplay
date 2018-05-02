@@ -126,7 +126,6 @@ void GW2_CombatData::split_characters()
 			
 		}
 	}
-
 }
 
 void GW2_CombatData::split_players()
@@ -147,7 +146,6 @@ void GW2_CombatData::split_players()
 
 		}
 	}
-
 }
 
 void GW2_CombatData::assign_instance_id()
@@ -325,4 +323,29 @@ void GW2_CombatData::map_assign_master_agent()
 		}
 	}
 	printf("Assignment of Master ID's complete\n");
+}
+
+void GW2_CombatData::map_split_players()
+{
+	
+	//Generate list of all agents in map
+	QList<GW2_Agent*> working_agents = agent_map.values();
+
+	for (int counter = 0; counter < working_agents.size(); counter++)
+	{
+		//Check if entry is Player
+		if ((working_agents.at(counter)->get_is_elite() != 0xffffffff))
+		{
+			//Agent is Player with profession and elite spec, Remove from Agents and add to Players
+			//TODO add code to handle transfer and correct pointer position
+			printf("Found a Player at Pos: %d\n", counter);
+			printf("Player profession: %d\n", working_agents.at(counter)->get_prof());
+			printf("Player elitespec: %d\n", working_agents.at(counter)->get_is_elite());
+			player_map.insert(working_agents.at(counter)->get_addr(), new GW2_Player(this, working_agents.at(counter)));
+		}
+		else
+		{
+
+		}
+	}
 }

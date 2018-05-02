@@ -9,12 +9,15 @@ class GW2_Player : public GW2_Agent
 
 public:
 	GW2_Player(QObject *parent);
+	GW2_Player(QObject *parent, GW2_Agent* agent);
 	~GW2_Player();
 
 private:
-	std::string character_name;
-	std::string account_name;
-	std::string subgroup;
+	char character_name[64];
+	char account_name[64];
+	char subgroup[64];
+
+	void split_name();
 
 	QMap<uint64_t, GW2_Agent*> minions_map;
 	QMap<uint64_t, GW2_CombatEvent*> incoming_events;

@@ -38,12 +38,18 @@ public:
 	void map_assign_instance_id();
 	void map_assign_master_agent();
 
-
-	//FURTHER LIST DATA PARTITIONING
+	//FURTHER MAP DATA PARTITIONING
 	void split_gadgets();
 	//void split_boss();  Maybe useful?
 	void split_characters();
 	void split_players();
+
+
+	//FURTHER LIST DATA PARTITIONING
+	void map_split_gadgets();
+	//void split_boss();  Maybe useful?
+	void map_split_characters();
+	void map_split_players();
 		
 	//SETTER
 	void set_build_version(std::string version_str);

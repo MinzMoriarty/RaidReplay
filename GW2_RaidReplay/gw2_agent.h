@@ -13,8 +13,7 @@ public:
 	GW2_Agent(QObject *parent, uint64_t c_addr, uint32_t c_prof, uint32_t c_is_elite, int16_t c_toughness, int16_t c_concentration, int16_t c_healing, int16_t c_pad1, int16_t c_condition, int16_t c_pad2, char* c_name);
 	~GW2_Agent();
 
-	// GETTER
-		
+	// GETTER		
 	uint64_t get_addr();
 	uint32_t get_prof();
 	uint32_t get_is_elite();
@@ -31,7 +30,6 @@ public:
 	uint64_t get_master_addr();
 
 	//SETTER
-
 	void set_instance_id(uint16_t i_id);
 	void set_first_aware(uint64_t f_aw);
 	void set_last_aware(uint64_t l_aw);
@@ -49,6 +47,7 @@ protected:
 	int16_t condition;
 	int16_t pad2;
 	char name[64];
+	
 	//Initialize in constructor
 	uint16_t instance_id;
 	uint64_t first_aware;
