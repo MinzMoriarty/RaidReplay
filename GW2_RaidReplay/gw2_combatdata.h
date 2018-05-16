@@ -37,15 +37,16 @@ public:
 	void clear_agent_map();
 	void map_assign_instance_id();
 	void map_assign_master_agent();
+	void map_assign_cbt_event();
 
-	//FURTHER MAP DATA PARTITIONING
+	//FURTHER LIST DATA PARTITIONING
 	void split_gadgets();
 	//void split_boss();  Maybe useful?
 	void split_characters();
 	void split_players();
 
 
-	//FURTHER LIST DATA PARTITIONING
+	//FURTHER MAP DATA PARTITIONING
 	void map_split_gadgets();
 	//void split_boss();  Maybe useful?
 	void map_split_characters();
@@ -60,7 +61,7 @@ public:
 
 	//GETTER
 	std::string get_build_version();
-	std::string get_pov_version();
+	std::string get_pov();
 	std::string get_log_start();
 	std::string get_log_end();
 	uint16_t get_boss_id();

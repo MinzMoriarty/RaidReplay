@@ -39,8 +39,30 @@ GW2_Agent::GW2_Agent(QObject *parent, uint64_t c_addr, uint32_t c_prof, uint32_t
 	master_addr = 0;	
 }
 
-// GETTER
+GW2_Agent::GW2_Agent(QObject *parent, evtc_agent agent)
+	: QObject(parent)
+{
+	addr = agent.addr;
+	prof = agent.prof;
+	is_elite = agent.is_elite;
+	toughness = agent.toughness;
+	concentration = agent.concentration;
+	healing = agent.healing;
+	pad1 = agent.pad1;
+	condition = agent.condition;
+	pad2 = agent.pad2;
+	memcpy(name, agent.name, 64 * sizeof(char));
+	instance_id = 0;
+	first_aware = 0;
+	last_aware = UINT64_MAX;
+	master_addr = 0;
+}
 
+GW2_Agent::~GW2_Agent()
+{
+}
+
+// GETTER
 uint64_t GW2_Agent::get_addr()
 {
 	return addr;
@@ -111,8 +133,35 @@ uint64_t GW2_Agent::get_master_addr()
 	return master_addr;
 }
 
-//SETTER
+QList<GW2_Agent*> GW2_Agent::get_minion_list()
+{
+	return minion_map.values();
+}
 
+GW2_Agent* GW2_Agent::get_minion(uint64_t id)
+{
+	return minion_map.value(id);
+}
+
+QList<GW2_CombatEvent*> GW2_Agent::get_incoming_events()
+{
+	return incoming_events.values();
+}
+QList<GW2_CombatEvent*> GW2_Agent::get_outgoing_events()
+{
+	return outgoing_events.values();
+}
+
+QList<GW2_CombatEvent*> GW2_Agent::get_incoming_events_from(uint64_t id)
+{
+	return incoming_events.values(id);
+}
+QList<GW2_CombatEvent*> GW2_Agent::get_outgoing_events_to(uint64_t id)
+{
+	return outgoing_events.values(id);
+}
+
+//SETTER
 void GW2_Agent::set_instance_id(uint16_t i_id)
 {
 	instance_id = i_id;
@@ -133,6 +182,18 @@ void GW2_Agent::set_master_addr(uint64_t m_addr)
 	master_addr = m_addr;
 }
 
-GW2_Agent::~GW2_Agent()
+void GW2_Agent::add_incoming_event(GW2_CombatEvent* event)
 {
+	incoming_events.insertMulti(event->src_agent,event);
+}
+
+void GW2_Agent::add_outgoing_event(GW2_CombatEvent* event)
+{
+	outgoing_events.insertMulti(event->src_agent, event);
+}
+
+void GW2_Agent::add_minion(GW2_Agent* minion)
+{
+	minion_map.insert(minion->addr, minion);
+	//printf("%s now has %d minions \n", name, minion_map.count());
 }

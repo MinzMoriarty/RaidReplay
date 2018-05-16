@@ -283,6 +283,7 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_gw2_raidreplay.h" />
     <ClInclude Include="enums.h" />
+    <ClInclude Include="structs.h" />
     <CustomBuild Include="gw2_character.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing gw2_character.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>

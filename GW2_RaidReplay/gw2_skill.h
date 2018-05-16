@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <stdint.h>
+#include "structs.h"
 
 class GW2_Skill : public QObject
 {
@@ -10,6 +11,7 @@ class GW2_Skill : public QObject
 public:
 	GW2_Skill(QObject *parent);
 	GW2_Skill(QObject *parent, int32_t c_id, char* c_name);
+	GW2_Skill(QObject *parent, skill s_skill);
 	~GW2_Skill();
 
 private:

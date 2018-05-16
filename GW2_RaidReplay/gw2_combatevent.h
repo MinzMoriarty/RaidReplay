@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <stdint.h>
+#include "structs.h"
 
 class GW2_CombatEvent : public QObject
 {
@@ -13,6 +14,7 @@ public:
 		uint16_t c_dst_instid, uint16_t c_src_master_instid, uint8_t c_iss_offset,uint8_t c_iss_offset_target, uint8_t c_iss_bd_offset, uint8_t c_iss_bd_offset_target, uint8_t c_iss_alt_offset, 
 		uint8_t c_iss_alt_offset_target, uint8_t c_skar, uint8_t c_skar_alt, uint8_t c_skar_use_alt, uint8_t c_iff, uint8_t c_buff, uint8_t c_result, uint8_t c_is_activation, uint8_t c_is_buffremove, 
 		uint8_t c_is_ninety, uint8_t c_is_fifty, uint8_t c_is_moving, uint8_t c_is_statechange, uint8_t c_is_flanking, uint8_t c_is_shields, uint8_t c_result_local, uint8_t c_ident_local);
+	GW2_CombatEvent(QObject *parent, cbtevent s_event);
 	~GW2_CombatEvent();
 
 	uint64_t time; /* timegettime() at time of event */

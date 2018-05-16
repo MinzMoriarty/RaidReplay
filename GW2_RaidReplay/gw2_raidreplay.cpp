@@ -25,8 +25,11 @@ void GW2_RaidReplay::ParseButtonClicked()
 	GW2_Evtc_Parser parser(this, &dataset);
 	parser.parse_evtc_log();
 	dataset.map_assign_instance_id();
-	dataset.map_assign_master_agent();
+	dataset.map_assign_master_agent();	
+	dataset.map_assign_cbt_event();
+
 	dataset.map_split_players();
+
 	//dataset.assign_instance_id();
 	//dataset.assign_master_agent();
 	//dataset.split_gadgets();

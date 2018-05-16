@@ -45,6 +45,43 @@ GW2_CombatEvent::GW2_CombatEvent(QObject *parent, uint64_t c_time, uint64_t c_sr
 	ident_local = c_ident_local;
 }
 
+GW2_CombatEvent::GW2_CombatEvent(QObject *parent, cbtevent s_event)
+	: QObject(parent)
+{
+	time = s_event.time;
+	src_agent = s_event.src_agent;
+	dst_agent = s_event.dst_agent;
+	value = s_event.value;
+	buff_dmg = s_event.buff_dmg;
+	overstack_value = s_event.overstack_value;
+	skillid = s_event.skillid;
+	src_instid = s_event.src_instid;
+	dst_instid = s_event.dst_instid;
+	src_master_instid = s_event.src_master_instid;
+	iss_offset = s_event.iss_offset;
+	iss_offset_target = s_event.iss_offset_target;
+	iss_bd_offset = s_event.iss_bd_offset;
+	iss_bd_offset_target = s_event.iss_bd_offset_target;
+	iss_alt_offset = s_event.iss_alt_offset;
+	iss_alt_offset_target = s_event.iss_alt_offset_target;
+	skar = s_event.skar;
+	skar_alt = s_event.skar_alt;
+	skar_use_alt = s_event.skar_use_alt;
+	iff = s_event.iff;
+	buff = s_event.buff;
+	result = s_event.result;
+	is_activation = s_event.is_activation;
+	is_buffremove = s_event.is_buffremove;
+	is_ninety = s_event.is_ninety;
+	is_fifty = s_event.is_fifty;
+	is_moving = s_event.is_moving;
+	is_statechange = s_event.is_statechange;
+	is_flanking = s_event.is_flanking;
+	is_shields = s_event.is_shields;
+	result_local = s_event.result_local;
+	ident_local = s_event.ident_local;
+}
+
 GW2_CombatEvent::~GW2_CombatEvent()
 {
 }

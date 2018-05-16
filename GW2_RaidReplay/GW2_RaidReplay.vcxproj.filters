@@ -198,6 +198,9 @@
     <ClInclude Include="enums.h">
       <Filter>Header Files\enums</Filter>
     </ClInclude>
+    <ClInclude Include="structs.h">
+      <Filter>Header Files\enums</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GW2_RaidReplay.rc" />

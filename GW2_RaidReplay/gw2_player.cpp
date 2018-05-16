@@ -1,6 +1,4 @@
 #include "gw2_player.h"
-#include <iostream>
-#include <string>
 
 GW2_Player::GW2_Player(QObject *parent)	
 	: GW2_Agent(parent)
@@ -28,6 +26,12 @@ GW2_Player::GW2_Player(QObject *parent, GW2_Agent* agent)
 	master_addr = agent->get_master_addr();
 	//Handle GW2_Player specific variables
 	split_name();	
+
+	minion_map = agent->minion_map;
+	incoming_events = agent->incoming_events;
+	outgoing_events = agent->outgoing_events;
+	
+	//TODO: Handle map data copying diffently?
 }
 
 GW2_Player::~GW2_Player()
@@ -70,12 +74,24 @@ void GW2_Player::split_name()
 					//printf("This never happens! \n");
 					break;
 			}
-
 		}
 	}
-
 	printf("Character Name: %s \n", character_name);
 	printf("Account Name: %s \n", account_name);
 	printf("Subgroup: %s \n", subgroup);
+}
 
+char* GW2_Player::get_character_name()
+{
+	return character_name;
+}
+
+char* GW2_Player::get_account_name()
+{
+	return account_name;
+}
+
+char* GW2_Player::get_subgroup()
+{
+	return subgroup;
 }
